@@ -1,9 +1,18 @@
 import React from "react";
-function Card({title, price, imageUrl, sizes}) {
+function Card({title, price, imageUrl, sizes, types}) {
 	const [pizzaCount, setPizzaCount] = React.useState(0);
+	const [activeType, setActiveType] = React.useState(0);
+	const [activeSize, setActiveSize] = React.useState(0);
+	const typeNames = ['thin', 'traditional'];
 	const onClickAddPizza = () => {
 		setPizzaCount((prev) => (prev + 1));
 	}
+	// const onClickType = (index) => {
+	// 	setActiveType(index);
+	// }
+	// const onCLickSize = (index) => {
+	// 	setActiveSize(index);
+	// }
 	return(
 		<div className="pizza-card">
   <img
@@ -14,11 +23,18 @@ function Card({title, price, imageUrl, sizes}) {
   <h4 className="pizza-card__title">{title}</h4>
   <div className="pizza-card__selector">
     <ul>
-      <li className="active">thin</li>
-      <li>traditional</li>
+		{types.map((typeId, i) => (
+		<li key={i} onClick={() => (setActiveSize(i))} 
+		className={activeSize === i ? "active" : ""}>{typeNames[typeId]}</li>
+		))}
+      {/* <li className="active">thin</li>
+      <li>traditional</li> */}
     </ul>
     <ul>
-		{sizes.map((size) => (<li>{size} cm.</li>))}
+		{sizes.map((size, index) => (
+		<li key={index} onClick={() => setActiveType(index)} 
+		className={activeType === index ? "active" : ""}>{size} cm.</li>
+		))}
       {/* <li className="active">26 cm.</li>
       <li>30 cm.</li>
       <li>40 cm.</li> */}

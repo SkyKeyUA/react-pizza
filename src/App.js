@@ -21,12 +21,15 @@ function App() {
           </div>
           <h2 className="content__title">All Pizzas</h2>
           <div className="content__items">
-            {pizzas.map((obj) => (
-					<Card 
-					title= {obj.title}
-					price= {obj.price}
-					imageUrl= {obj.imageUrl}
-					sizes= {obj.sizes}
+            {pizzas.map((obj, index) => (
+					<Card
+					key={index}
+					// title= {obj.title}
+					// price= {obj.price}
+					// imageUrl= {obj.imageUrl}
+					// sizes= {obj.sizes}
+					// types= {obj.types}
+					{...obj}
 					/>
 					))} 
           </div>
