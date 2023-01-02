@@ -7,9 +7,23 @@ import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import Card from "./components/Card";
 
-import pizzas from '../src/assets/pizzas.json'
+import axios from "axios";
 
 function App() {
+	const [items, setItems] = React.useState([]);
+	React.useEffect(() => {
+		try {
+		fetch('https://63b2b99f5e490925c51fc1ea.mockapi.io/items')
+		.then((res) => res.json())
+		.then((json) => {
+			setItems(json);
+		});
+		//axios.get('https://63b2b99f5e490925c51fc1ea.mockapi.io/items').then((res) => {return setItems(res.data)})
+		} catch (error) {
+			alert('error when get items')
+			console.error(error);
+		}
+	}, []);
 	return (
 		<div className="wrapper">
 			<Header/>
@@ -21,17 +35,10 @@ function App() {
           </div>
           <h2 className="content__title">All Pizzas</h2>
           <div className="content__items">
-            {pizzas.map((obj) => (
-					<Card
-					key={obj.id}
-					// title= {obj.title}
-					// price= {obj.price}
-					// imageUrl= {obj.imageUrl}
-					// sizes= {obj.sizes}
-					// types= {obj.types}
-					{...obj}
-					/>
-					))} 
+				{items.map((obj) => (<Card
+				key={obj.id}
+				{...obj}
+				/>))}
           </div>
         </div>
       </div>
