@@ -20,9 +20,10 @@ function Home() {
 			setIsLoading(false);
 		};
 		axiosItems();
+		window.scrollTo(0, 0);
 	}, []);
   return (
-	<>
+	<div className="container">
 	<div className="content__top">
 	<Categories/>
 	<Sort/>
@@ -43,7 +44,7 @@ function Home() {
 		/>
 		))} 
  </div>
- </>
+ </div>
   )
 }
 

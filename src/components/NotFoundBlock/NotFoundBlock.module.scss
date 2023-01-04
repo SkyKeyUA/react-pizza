@@ -1,6 +1,8 @@
 .root {
 	text-align: center;
 	padding: 100px;
+	margin: 0 auto;
+	max-width: 650px;
 	&_title {
 		font-size: 48px;
 		font-weight: 800;

@@ -3,6 +3,7 @@
 .sort {
   position: relative;
   cursor: pointer;
+  white-space: nowrap;
   &.active {
 	.sort__popup {
 	opacity: 1;
