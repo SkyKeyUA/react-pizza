@@ -14,6 +14,7 @@ function Home({ searchValue }) {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({
     name: 'popularity',
     sortProperty: 'rating',
@@ -29,7 +30,7 @@ function Home({ searchValue }) {
       const sortBy = sortType.sortProperty.replace('-', '');
       const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
       const data = await axios(
-        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=1&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
       ).then((res) => {
         setItems(res.data);
       });
@@ -37,11 +38,11 @@ function Home({ searchValue }) {
     };
     axiosItems();
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue]);
+  }, [categoryId, sortType, searchValue, currentPage]);
   //   const filterItems = items.filter((item) =>
   //     item.title.toLowerCase().includes(searchValue.toLowerCase()),
   //   );
-  const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
+  const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
   const pizzas = items.map((obj) => (
     <Card
       key={obj.id}
@@ -61,7 +62,7 @@ function Home({ searchValue }) {
       </div>
       <h2 className="content__title">All Pizzas</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination />
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 }
