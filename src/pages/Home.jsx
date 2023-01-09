@@ -10,17 +10,25 @@ import Pagination from '../components/Pagination';
 
 import axios from 'axios';
 import { SearchContext } from '../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
 
 function Home() {
+  const dispatch = useDispatch();
+  const categoryId = useSelector((state) => state.filterSlice.categoryId);
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
+  // const [categoryId, setCategoryId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({
     name: 'popularity',
     sortProperty: 'rating',
   });
+  const onClickCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+  console.log(categoryId);
   React.useEffect(() => {
     setIsLoading(true);
     // fetch('https://63b2b99f5e490925c51fc1ea.mockapi.io/items')
@@ -59,7 +67,7 @@ function Home() {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={(i) => setCategoryId(i)} />
+        <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
         <Sort sortType={sortType} onClickSort={(i) => setSortType(i)} />
       </div>
       <h2 className="content__title">All Pizzas</h2>
