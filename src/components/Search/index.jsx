@@ -7,22 +7,24 @@ import styles from './Search.module.scss';
 
 const Search = () => {
   const [value, setValue] = React.useState('');
+  const { setSearchValue } = React.useContext(SearchContext);
   const inputRef = React.useRef();
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+
   const onClickClear = () => {
     setValue('');
+    setSearchValue('');
     //document.querySelector('input');
     inputRef.current.focus();
   };
-  //   const onChangeInput = React.useCallback(
-  //     debounce((event) => {
-  //       console.log(event);
-  //       setSearchValue(event.target.value);
-  //     }, 1000),
-  //     [],
-  //   );
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 350),
+    [],
+  );
   const onChangeInput = (event) => {
     setValue(event.target.value);
+    updateSearchValue(event.target.value);
   };
   return (
     <div className={styles.root}>
@@ -50,7 +52,7 @@ const Search = () => {
       <input
         ref={inputRef}
         value={value}
-        onChange={(event) => onChangeInput(event)}
+        onChange={onChangeInput}
         className={styles.input}
         placeholder="Search..."
       />
