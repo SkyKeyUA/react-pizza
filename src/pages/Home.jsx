@@ -11,11 +11,11 @@ import Pagination from '../components/Pagination';
 import axios from 'axios';
 import { SearchContext } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 
 function Home() {
   const dispatch = useDispatch();
-  const { categoryId, sort } = useSelector((state) => state.filterSlice);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
   //const sortType = sort.sortProperty;
   //   const categoryId = useSelector((state) => state.filterSlice.categoryId);
   //   const sortType = useSelector((state) => state.filterSlice.sort.sortProperty);
@@ -23,13 +23,16 @@ function Home() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   // const [categoryId, setCategoryId] = React.useState(0);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  //const [currentPage, setCurrentPage] = React.useState(1);
   //   const [sortType, setSortType] = React.useState({
   //     name: 'popularity',
   //     sortProperty: 'rating',
   //   });
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
+  };
+  const onChagnePage = (number) => {
+    dispatch(setCurrentPage(number));
   };
   React.useEffect(() => {
     setIsLoading(true);
@@ -74,7 +77,7 @@ function Home() {
       </div>
       <h2 className="content__title">All Pizzas</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage={currentPage} onChangePage={onChagnePage} />
     </div>
   );
 }
