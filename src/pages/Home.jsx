@@ -19,6 +19,7 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
   //const sortType = sort.sortProperty;
   //   const categoryId = useSelector((state) => state.filterSlice.categoryId);
@@ -58,6 +59,19 @@ function Home() {
     axiosItems();
     window.scrollTo(0, 0);
   };
+  // If the parameters were changed and the first rendering was (qs)
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
+  // after the first rendering, we check the URL parameters and save Redux (qs)
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
@@ -72,6 +86,7 @@ function Home() {
       isSearch.current = true;
     }
   }, []);
+  // If there was a first rendering, then we request pizzas (qs)
   React.useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -84,14 +99,7 @@ function Home() {
   //   const filterItems = items.filter((item) =>
   //     item.title.toLowerCase().includes(searchValue.toLowerCase()),
   //   );
-  React.useEffect(() => {
-    const queryString = qs.stringify({
-      sortProperty: sort.sortProperty,
-      categoryId,
-      currentPage,
-    });
-    navigate(`?${queryString}`);
-  }, [categoryId, sort.sortProperty, currentPage]);
+
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
   const pizzas = items.map((obj) => (
     <Card
