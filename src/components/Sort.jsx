@@ -15,14 +15,34 @@ export const list = [
 function Sort() {
   const dispatch = useDispatch();
   const sortType = useSelector((state) => state.filterSlice.sort);
+  const sortRef = React.useRef();
+
   const [open, setOpen] = React.useState(false);
   // const sortName = list[selected];
   // const onClickListItem = (i) => {
   // 	setSelected(i);
   // 	setOpen(!open);
   // }
+  React.useEffect(() => {
+    console.log('Sort mount');
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setOpen(false);
+        console.log('click outside');
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      console.log('Sort unmount');
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   return (
-    <div onClick={() => setOpen(!open)} className={open === true ? 'sort active' : 'sort'}>
+    <div
+      ref={sortRef}
+      onClick={() => setOpen(!open)}
+      className={open === true ? 'sort active' : 'sort'}>
       {/* <div className="sort"> */}
       <div className="sort__label">
         <svg
