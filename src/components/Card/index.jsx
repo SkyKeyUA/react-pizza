@@ -19,7 +19,7 @@ function Card({ id, title, price, imageUrl, sizes, types }) {
       imageUrl,
       //type: activeType,
       type: typeNames[activeType],
-      size: activeSize,
+      size: sizes[activeSize],
     };
     dispatch(addItem(item));
     //setPizzaCount((prev) => prev + 1);
@@ -43,8 +43,8 @@ function Card({ id, title, price, imageUrl, sizes, types }) {
             {types.map((typeId, i) => (
               <li
                 key={i}
-                onClick={() => setActiveSize(i)}
-                className={activeSize === i ? 'active' : ''}>
+                onClick={() => setActiveType(i)}
+                className={activeType === i ? 'active' : ''}>
                 {typeNames[typeId]}
               </li>
             ))}
@@ -55,8 +55,8 @@ function Card({ id, title, price, imageUrl, sizes, types }) {
             {sizes.map((size, index) => (
               <li
                 key={index}
-                onClick={() => setActiveType(index)}
-                className={activeType === index ? 'active' : ''}>
+                onClick={() => setActiveSize(index)}
+                className={activeSize === index ? 'active' : ''}>
                 {size} cm.
               </li>
             ))}
