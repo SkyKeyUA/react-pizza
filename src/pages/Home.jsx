@@ -49,12 +49,32 @@ function Home() {
       const search = searchValue ? `&search=${searchValue}` : '';
       const sortBy = sort.sortProperty.replace('-', '');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-      const data = await axios(
-        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      ).then((res) => {
+      //    await axios
+      //      .get(
+      //        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+      //      )
+      //      .then((res) => {
+      //        setItems(res.data);
+      //        setIsLoading(false);
+      //      })
+      //      .catch((err) => {
+      //        console.log(err, 'AxiosError');
+      //        setIsLoading(false);
+      //      });
+      //  };
+      try {
+        const res = await axios.get(
+          `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+        );
         setItems(res.data);
-      });
-      setIsLoading(false);
+        //   setIsLoading(false);
+      } catch (error) {
+        //   setIsLoading(false);
+        console.log(error, 'AxiosError');
+        alert('Mistake when receiving a pizza');
+      } finally {
+        setIsLoading(false);
+      }
     };
     axiosItems();
     window.scrollTo(0, 0);
