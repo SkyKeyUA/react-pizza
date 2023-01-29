@@ -13,20 +13,25 @@ import Pagination from '../components/Pagination';
 
 import axios from 'axios';
 import { SearchContext } from '../App';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
-  const { items, status } = useSelector((state) => state.pizzasSlice);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  //const { searchValue } = React.useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzasData);
   //const sortType = sort.sortProperty;
   //   const categoryId = useSelector((state) => state.filterSlice.categoryId);
   //   const sortType = useSelector((state) => state.filterSlice.sort.sortProperty);
-  const { searchValue } = React.useContext(SearchContext);
   //const [items, setItems] = React.useState([]);
   //   const [isLoading, setIsLoading] = React.useState(true);
   // const [categoryId, setCategoryId] = React.useState(0);
