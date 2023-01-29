@@ -14,6 +14,7 @@ import Pagination from '../components/Pagination';
 import axios from 'axios';
 import { SearchContext } from '../App';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 function Home() {
   const navigate = useNavigate();
@@ -21,12 +22,13 @@ function Home() {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
+  const { items, status } = useSelector((state) => state.pizzasSlice);
   //const sortType = sort.sortProperty;
   //   const categoryId = useSelector((state) => state.filterSlice.categoryId);
   //   const sortType = useSelector((state) => state.filterSlice.sort.sortProperty);
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  //const [items, setItems] = React.useState([]);
+  //   const [isLoading, setIsLoading] = React.useState(true);
   // const [categoryId, setCategoryId] = React.useState(0);
   //const [currentPage, setCurrentPage] = React.useState(1);
   //   const [sortType, setSortType] = React.useState({
@@ -39,8 +41,8 @@ function Home() {
   const onChagnePage = (number) => {
     dispatch(setCurrentPage(number));
   };
-  const fetchPizzas = () => {
-    setIsLoading(true);
+  const getPizzas = () => {
+    //  setIsLoading(true);
     // fetch('https://63b2b99f5e490925c51fc1ea.mockapi.io/items')
     // .then((res) => res.json())
     // .then((json) => {setItems(json); setIsLoading(false);})
@@ -49,36 +51,59 @@ function Home() {
       const search = searchValue ? `&search=${searchValue}` : '';
       const sortBy = sort.sortProperty.replace('-', '');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-      //    await axios
-      //      .get(
-      //        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      //      )
-      //      .then((res) => {
-      //        setItems(res.data);
-      //        setIsLoading(false);
-      //      })
-      //      .catch((err) => {
-      //        console.log(err, 'AxiosError');
-      //        setIsLoading(false);
-      //      });
-      //  };
-      try {
-        const res = await axios.get(
-          `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-        );
-        setItems(res.data);
-        //   setIsLoading(false);
-      } catch (error) {
-        //   setIsLoading(false);
-        console.log(error, 'AxiosError');
-        alert('Mistake when receiving a pizza');
-      } finally {
-        setIsLoading(false);
-      }
+      dispatch(
+        fetchPizzas({
+          category,
+          search,
+          sortBy,
+          order,
+          currentPage,
+        }),
+      );
     };
     axiosItems();
     window.scrollTo(0, 0);
   };
+  //    await axios
+  //      .get(
+  //        `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+  //      )
+  //      .then((res) => {
+  //        setItems(res.data);
+  //        setIsLoading(false);
+  //      })
+  //      .catch((err) => {
+  //        console.log(err, 'AxiosError');
+  //        setIsLoading(false);
+  //      });
+  //  };
+  // try {
+  //   dispatch(
+  //     fetchPizzas({
+  //       category,
+  //       search,
+  //       sortBy,
+  //       order,
+  //       currentPage,
+  //     }),
+  //   );
+  //   //   const { data } = await axios.get(
+  //   //     `https://63b2b99f5e490925c51fc1ea.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+  //   //   );
+  //   //   setItems(res.data);
+  //   //   dispatch(setItems(data));
+  //   //   setIsLoading(false);
+  // } catch (error) {
+  //   //   setIsLoading(false);
+  //   console.log(error, 'AxiosError');
+  //   alert('Mistake when receiving a pizza');
+  // } finally {
+  //   //   setIsLoading(false);
+  // }
+  //     };
+  //     axiosItems();
+  //     window.scrollTo(0, 0);
+  //   };
   // If the parameters were changed and the first rendering was (qs)
   React.useEffect(() => {
     if (isMounted.current) {
@@ -111,7 +136,7 @@ function Home() {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -139,7 +164,14 @@ function Home() {
         <Sort />
       </div>
       <h2 className="content__title">All Pizzas</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2>There was an error 😕</h2>
+          <p>Unfortunately, it was not possible to get the pizzas. Please try again later.</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChagnePage} />
     </div>
   );
