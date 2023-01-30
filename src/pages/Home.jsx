@@ -11,8 +11,8 @@ import Card from '../components/Card';
 import Skeleton from '../components/Card/Skeleton';
 import Pagination from '../components/Pagination';
 
-import axios from 'axios';
-import { SearchContext } from '../App';
+//import axios from 'axios';
+//import { SearchContext } from '../App';
 import {
   selectFilter,
   setCategoryId,

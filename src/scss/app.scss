@@ -91,6 +91,20 @@ body {
       margin: 0;
     }
   }
+  &__pizza {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 42px;
+    line-height: 1.6;
+    h2 {
+      font-weight: 700;
+    }
+    h4 {
+      font-weight: 700;
+    }
+  }
 }
 
 .cart {
