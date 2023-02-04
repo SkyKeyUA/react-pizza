@@ -4,14 +4,23 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
-function Card({ id, title, price, imageUrl, sizes, types }) {
+
+type CardProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   //const cartItem = useSelector((state) => selectCartItemById(id, state));
   //const [pizzaCount, setPizzaCount] = React.useState(0);
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
-  const typeNames = ['thin', 'traditional'];
+  const typeNames: string[] = ['thin', 'traditional'];
   const addedCount = cartItem ? cartItem.count : 0;
   const onClickAdd = () => {
     const item = {
@@ -90,6 +99,6 @@ function Card({ id, title, price, imageUrl, sizes, types }) {
       </div>{' '}
     </div>
   );
-}
+};
 
 export default Card;
