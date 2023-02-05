@@ -21,7 +21,7 @@ import {
 } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -40,11 +40,11 @@ function Home() {
   //     name: 'popularity',
   //     sortProperty: 'rating',
   //   });
-  const onClickCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onClickCategory = (idx: number) => {
+    dispatch(setCategoryId(idx));
   };
-  const onChagnePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChagnePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
   const getPizzas = () => {
     //  setIsLoading(true);
@@ -57,6 +57,7 @@ function Home() {
       const sortBy = sort.sortProperty.replace('-', '');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
       dispatch(
+        //@ts-ignore
         fetchPizzas({
           category,
           search,
@@ -151,7 +152,7 @@ function Home() {
   //   );
 
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <Card
       key={obj.id}
       // title= {obj.title}
@@ -180,6 +181,6 @@ function Home() {
       <Pagination currentPage={currentPage} onChangePage={onChagnePage} />
     </div>
   );
-}
+};
 
 export default Home;
