@@ -2,7 +2,11 @@
 
 import React from 'react';
 
-type CategoriesProps = { categoryId: number; onClickCategory: any };
+type CategoriesProps = {
+  categoryId: number;
+  // my function does not require any value to be returned
+  onClickCategory: (i: number) => void;
+};
 const Categories: React.FC<CategoriesProps> = ({ categoryId, onClickCategory }) => {
   const categories = ['All', 'Meat', 'Vegetarian', 'Grilled', 'Pepperoni', 'Closed'];
   return (
