@@ -3,7 +3,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
+import { addItem, CartItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
 type CardProps = {
   id: string;
@@ -12,6 +12,7 @@ type CardProps = {
   imageUrl: string;
   sizes: number[];
   types: number[];
+  rating: number;
 };
 const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types })
   const typeNames: string[] = ['thin', 'traditional'];
   const addedCount = cartItem ? cartItem.count : 0;
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
@@ -31,6 +32,7 @@ const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types })
       //type: activeType,
       type: typeNames[activeType],
       size: sizes[activeSize],
+      count: 0,
     };
     dispatch(addItem(item));
     //setPizzaCount((prev) => prev + 1);
