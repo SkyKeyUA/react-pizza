@@ -2,7 +2,7 @@
 
 import React from 'react';
 import qs from 'qs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
@@ -19,11 +19,12 @@ import {
   setCurrentPage,
   setFilters,
 } from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
+import { fetchPizzas, SearchPizzaParams, selectPizzasData } from '../redux/slices/pizzasSlice';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
@@ -57,13 +58,12 @@ const Home: React.FC = () => {
       const sortBy = sort.sortProperty.replace('-', '');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
       dispatch(
-        //@ts-ignore
         fetchPizzas({
           category,
           search,
           sortBy,
           order,
-          currentPage,
+          currentPage: String(currentPage),
         }),
       );
     };
@@ -125,13 +125,14 @@ const Home: React.FC = () => {
   // after the first rendering, we check the URL parameters and save Redux (qs)
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || list[0],
         }),
       );
       isSearch.current = true;
