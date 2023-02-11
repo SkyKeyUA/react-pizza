@@ -41,9 +41,9 @@ const Home: React.FC = () => {
   //     name: 'popularity',
   //     sortProperty: 'rating',
   //   });
-  const onClickCategory = (idx: number) => {
+  const onClickCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
   const onChagnePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
@@ -168,7 +168,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
-        <Sort />
+        <Sort sort={sort} />
       </div>
       <h2 className="content__title">All Pizzas</h2>
       {status === 'error' ? (

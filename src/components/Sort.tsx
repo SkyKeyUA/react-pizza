@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort, SortPropertyEnum } from '../redux/slices/filterSlice';
-
+import { selectSort, setSort, Sort, SortPropertyEnum } from '../redux/slices/filterSlice';
+//import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate';
 type SortItem = {
   name: string;
   sortProperty: SortPropertyEnum;
@@ -17,12 +17,16 @@ export const list: SortItem[] = [
   { name: 'alphabetically (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
 ];
 
-function SortPopup() {
+type SortPopupProps = {
+  sort: Sort;
+};
+
+const SortPopup: React.FC<SortPopupProps> = React.memo(({ sort }) => {
   const dispatch = useDispatch();
-  const sortType = useSelector(selectSort);
+  //const sortType = useSelector(selectSort);
   //const sortRef = React.useRef();
   const sortRef = React.useRef<HTMLDivElement>(null);
-
+  //useWhyDidYouUpdate('SortPopup', { sort });
   const [open, setOpen] = React.useState(false);
   // const sortName = list[selected];
   // const onClickListItem = (i) => {
@@ -63,7 +67,7 @@ function SortPopup() {
         </svg>
         <b>Sort by:</b>
         {/* <span onClick={() => (setOpen(!open))}>{list[selected]}</span> */}
-        <span>{sortType.name}</span>
+        <span>{sort.name}</span>
       </div>
       <div className="sort__popup">
         <ul>
@@ -71,31 +75,31 @@ function SortPopup() {
             <li
               key={i}
               onClick={() => dispatch(setSort(obj))}
-              className={sortType.sortProperty === obj.sortProperty ? 'active' : ''}>
+              className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>
               {obj.name}
             </li>
           ))}
           {/* <li className="active">popularity</li>
-			 <li>price</li>
-			 <li>alphabetically</li>  */}
+				  <li>price</li>
+				  <li>alphabetically</li>  */}
         </ul>
       </div>
       {/* {open && <div className="sort__popup">
-		  <ul>
-			{list.map((name, i) => (
-			<li 
-			key={i} 
-			onClick={() => (onClickListItem(i))}
-			className={selected === i ? "active" : ""}>{name}</li>
-			))}
-			
-			 <li className="active">popularity</li>
-			 <li>price</li>
-			 <li>alphabetically</li> 
-		  </ul>
-		</div>} */}
+				<ul>
+				 {list.map((name, i) => (
+				 <li 
+				 key={i} 
+				 onClick={() => (onClickListItem(i))}
+				 className={selected === i ? "active" : ""}>{name}</li>
+				 ))}
+				 
+				  <li className="active">popularity</li>
+				  <li>price</li>
+				  <li>alphabetically</li> 
+				</ul>
+			 </div>} */}
     </div>
   );
-}
+});
 
 export default SortPopup;
