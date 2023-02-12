@@ -13,14 +13,19 @@ import Pagination from '../components/Pagination';
 
 //import axios from 'axios';
 //import { SearchContext } from '../App';
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../redux/slices/filterSlice';
-import { fetchPizzas, SearchPizzaParams, selectPizzasData } from '../redux/slices/pizzasSlice';
+// import {
+//   selectFilter,
+//   setCategoryId,
+//   setCurrentPage,
+//   setFilters,
+// } from '../redux/slices/filterSlice';
+//import { fetchPizzas, SearchPizzaParams, selectPizzasData } from '../redux/slices/pizzasSlice';
 import { useAppDispatch } from '../redux/store';
+import { selectFilter } from '../redux/filter/selectors';
+import { selectPizzasData } from '../redux/pizza/selectors';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/filter/slice';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
+import { SearchPizzaParams } from '../redux/pizza/type';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
