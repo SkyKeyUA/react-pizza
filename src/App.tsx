@@ -1,16 +1,20 @@
 /** @format */
 
-//import React from 'react';
-
-import Home from './pages/Home';
-import Cart from './pages/Cart';
-import NotFound from './pages/NotFound';
-// import Header from './components/Header';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
+import Home from './pages/Home';
+//import Cart from './pages/Cart';
+//import NotFound from './pages/NotFound';
+//import FullPizza from './pages/FullPizza';
+// import Header from './components/Header';
+
 import './scss/app.scss';
-import FullPizza from './pages/FullPizza';
 import MainLayout from './layouts/MainLayout';
+
+const Cart = React.lazy(() => import('./pages/Cart'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+const FullPizza = React.lazy(() => import('./pages/FullPizza'));
 
 // export const SearchContext = React.createContext();
 
@@ -24,9 +28,30 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/pizza/:id" element={<FullPizza />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/cart"
+          element={
+            <React.Suspense fallback={<div className="container container__pizza">Loading...</div>}>
+              <Cart />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/pizza/:id"
+          element={
+            <React.Suspense fallback={<div className="container container__pizza">Loading...</div>}>
+              <FullPizza />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <React.Suspense fallback={<div className="container container__pizza">Loading...</div>}>
+              <NotFound />
+            </React.Suspense>
+          }
+        />
       </Route>
     </Routes>
     //</div>
