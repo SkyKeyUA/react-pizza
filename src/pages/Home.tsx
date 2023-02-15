@@ -5,12 +5,12 @@ import qs from 'qs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import Categories from '../components/Categories';
+//import Categories from '../components/Categories';
 import Sort, { list } from '../components/Sort';
-import Card from '../components/Card';
-import Skeleton from '../components/Card/Skeleton';
-import Pagination from '../components/Pagination';
-
+//import Card from '../components/Card';
+//import Skeleton from '../components/Card/Skeleton';
+//import Pagination from '../components/Pagination';
+import { Categories, Card, Skeleton, Pagination } from '../components';
 //import axios from 'axios';
 //import { SearchContext } from '../App';
 // import {

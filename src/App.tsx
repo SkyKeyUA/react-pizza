@@ -1,5 +1,5 @@
 /** @format */
-
+import Loadable from 'react-loadable';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -12,9 +12,17 @@ import Home from './pages/Home';
 import './scss/app.scss';
 import MainLayout from './layouts/MainLayout';
 
-const Cart = React.lazy(() => import('./pages/Cart'));
-const NotFound = React.lazy(() => import('./pages/NotFound'));
-const FullPizza = React.lazy(() => import('./pages/FullPizza'));
+// Can only do on the browser (client)
+//const Cart = React.lazy(() => import(/* webpackChunkName: "Cart" */ './pages/Cart'));
+
+// Can do both on the client and the server
+const Cart = Loadable({
+  loader: () => import(/* webpackChunkName: "Cart" */ './pages/Cart'),
+  loading: () => <div className="container container__pizza">Loading...</div>,
+});
+
+const NotFound = React.lazy(() => import(/* webpackChunkName: "NotFound" */ './pages/NotFound'));
+const FullPizza = React.lazy(() => import(/* webpackChunkName: "FullPizza" */ './pages/FullPizza'));
 
 // export const SearchContext = React.createContext();
 
@@ -28,14 +36,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
-        <Route
-          path="/cart"
-          element={
-            <React.Suspense fallback={<div className="container container__pizza">Loading...</div>}>
-              <Cart />
-            </React.Suspense>
-          }
-        />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/pizza/:id"
           element={
