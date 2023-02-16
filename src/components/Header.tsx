@@ -5,9 +5,9 @@ import { Link, useLocation } from 'react-router-dom';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { selectCart } from '../redux/cart/selectors';
-import Search from './Search';
+import { Search } from './';
 
-function Header() {
+export const Header: React.FC = () => {
   const { items } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);
@@ -76,6 +76,4 @@ function Header() {
       </div>
     </div>
   );
-}
-
-export default Header;
+};

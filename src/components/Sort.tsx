@@ -3,7 +3,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSort } from '../redux/filter/slice';
-import { Sort, SortPropertyEnum } from '../redux/filter/types';
+import { Sort as SortType, SortPropertyEnum } from '../redux/filter/types';
 //import { selectSort, setSort, Sort, SortPropertyEnum } from '../redux/slices/filterSlice';
 //import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate';
 type SortItem = {
@@ -20,10 +20,10 @@ export const list: SortItem[] = [
 ];
 
 type SortPopupProps = {
-  sort: Sort;
+  sort: SortType;
 };
 
-const SortPopup: React.FC<SortPopupProps> = React.memo(({ sort }) => {
+const Sort: React.FC<SortPopupProps> = React.memo(({ sort }) => {
   const dispatch = useDispatch();
   //const sortType = useSelector(selectSort);
   //const sortRef = React.useRef();
@@ -104,4 +104,4 @@ const SortPopup: React.FC<SortPopupProps> = React.memo(({ sort }) => {
   );
 });
 
-export default SortPopup;
+export default Sort;

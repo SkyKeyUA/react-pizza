@@ -17,7 +17,7 @@ type CardProps = {
   types: number[];
   rating: number;
 };
-const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types }) => {
+export const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   //const cartItem = useSelector((state) => selectCartItemById(id, state));
@@ -105,5 +105,3 @@ const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, types })
     </div>
   );
 };
-
-export default Card;
