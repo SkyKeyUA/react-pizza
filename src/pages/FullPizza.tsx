@@ -33,7 +33,7 @@ const FullPizza: React.FC = () => {
       <h2>{pizza.title}</h2>
       <h4>from {pizza.price} $</h4>
       <div className="cart__bottom-buttons">
-        <Link to="/" className="button button--outline button--add go-back-btn">
+        <Link to="/react-pizza" className="button button--outline button--add go-back-btn">
           <svg
             width="8"
             height="14"

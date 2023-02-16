@@ -52,7 +52,7 @@ export const Card: React.FC<CardProps> = ({ id, title, price, imageUrl, sizes, t
   return (
     <div className="pizza-card__wrapper">
       <div className="pizza-card">
-        <Link key={id} to={`/pizza/${id}`}>
+        <Link key={id} to={`/react-pizza/pizza/${id}`}>
           <img className="pizza-card__image" src={imageUrl} alt="Pizza" />
           <h4 className="pizza-card__title">{title}</h4>
         </Link>

@@ -35,10 +35,10 @@ function App() {
     //    <div className="content">
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/react-pizza" element={<Home />} />
+        <Route path="/react-pizza/cart" element={<Cart />} />
         <Route
-          path="/pizza/:id"
+          path="/react-pizza/pizza/:id"
           element={
             <React.Suspense fallback={<div className="container container__pizza">Loading...</div>}>
               <FullPizza />
