@@ -1,18 +1,30 @@
+/** @format */
+
 @import '../variables';
 
 .header {
   border-bottom: 1px solid $gray-line;
   padding: 40px 0;
+  @media (max-width: 479.98px) {
+    padding: 20px 0;
+  }
 
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 479.98px) {
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
   &__logo {
-    display: flex;
-
+    margin-right: 10px;
+    a,
+    a:visited {
+      display: flex;
+    }
     img {
       margin-right: 15px;
     }
@@ -28,18 +40,28 @@
     p {
       color: #7b7b7b;
     }
-	 @media (max-width: 768.98px){
-		h1 {
-			font-size: 18px;
-		}
-		p {
-			font-size: 12px;
-		}
-	 }
-	 @media (max-width: 480.98px){
-		div {
-			display: none;
-		}
-	 }
+    @media (max-width: 991.98px) {
+      h1 {
+        font-size: 18px;
+      }
+      p {
+        font-size: 12px;
+      }
+    }
+    @media (max-width: 767.98px) {
+      div {
+        display: none;
+      }
+    }
+    @media (max-width: 479.98px) {
+      margin-right: 0px;
+      margin-bottom: 20px;
+      div {
+        display: block;
+      }
+    }
+  }
+  &__cart {
+    white-space: nowrap;
   }
 }

@@ -26,15 +26,15 @@ export const Header: React.FC = () => {
   return (
     <div className="header">
       <div className="container">
-        <Link to="/react-pizza">
-          <div className="header__logo">
+        <div className="header__logo">
+          <Link to="/react-pizza">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
               <p>The tastiest pizza in the Universe</p>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
         {location.pathname !== '/cart' && <Search />}
         <div className="header__cart">
           {location.pathname !== '/cart' && (
