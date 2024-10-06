@@ -125,6 +125,20 @@ body {
     h4 {
       font-weight: 700;
     }
+    img {
+      max-width: 640px;
+      margin-block-end: 20px;
+    }
+    @media (max-width: 767.98px) {
+      img {
+        max-width: 440px;
+      }
+    }
+    @media (max-width: 479.98px) {
+      img {
+        max-width: 300px;
+      }
+    }
   }
 }
 
