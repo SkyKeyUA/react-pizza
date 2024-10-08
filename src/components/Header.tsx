@@ -1,17 +1,19 @@
 /** @format */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { selectCart } from '../redux/cart/selectors';
 import { Search } from './';
 
 export const Header: React.FC = () => {
+  const { id } = useParams();
   const { items } = useSelector(selectCart);
-  const location = useLocation();
+  const { pathname } = useLocation();
   const isMounted = React.useRef(false);
-  console.log(location);
+  const hideInCart = pathname !== '/react-pizza/cart';
+  const hideInPizza = pathname !== `/react-pizza/pizza/${id}`;
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
   const totalPrice = items.reduce((sum: number, obj: any) => {
     return obj.price * obj.count + sum;
@@ -35,9 +37,9 @@ export const Header: React.FC = () => {
             </div>
           </Link>
         </div>
-        {location.pathname !== '/cart' && <Search />}
+        {hideInCart && hideInPizza && <Search />}
         <div className="header__cart">
-          {location.pathname !== '/cart' && (
+          {hideInCart && (
             <Link to="/react-pizza/cart" className="button button--cart">
               <span>{totalPrice} $</span>
               <div className="button__delimiter"></div>
